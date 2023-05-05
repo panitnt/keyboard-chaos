@@ -1,6 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-
+import java.awt.event.*;
 public class Game extends JFrame {
     private GamePanel gamePanel = new GamePanel();
 
@@ -21,5 +21,3 @@ public class Game extends JFrame {
         Game game = new Game();
     }
 }
-
-
