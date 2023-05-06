@@ -1,23 +1,11 @@
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-public class Game extends JFrame {
-    private GamePanel gamePanel = new GamePanel();
+public class Game {
+    private Word word;
+    private Setting setting;
 
-    public Game() {
-        add(gamePanel);
-        pack();
-        setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+    public Game(){
+        word = new Word();
+        setting = Setting.getInstance();
     }
-
-    class GamePanel extends JPanel {
-        public GamePanel() {
-            setPreferredSize(new Dimension(1600, 800));
-        }
-    }
-
-    public static void main(String[] args) {
-        Game game = new Game();
-    }
+    public void start(){
+    };
 }
