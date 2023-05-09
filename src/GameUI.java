@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GameUI extends JFrame {
     private GamePanel gamePanel;
@@ -9,10 +11,10 @@ public class GameUI extends JFrame {
         gamePanel = new GamePanel();
         wordPanel = new WordPanel();
 
-        gamePanel.add(wordPanel);
+//        gamePanel.add(wordPanel);
         add(gamePanel);
         pack();
-        setLocationRelativeTo(null);
+//        setLocationRelativeTo(null);
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
@@ -23,7 +25,15 @@ public class GameUI extends JFrame {
         public GamePanel() {
             setBackground(Color.GRAY);
             setBorder(new EmptyBorder(PADDING, PADDING, PADDING, PADDING));
-
+            addKeyListener(new KeyAdapter() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    super.keyPressed(e);
+                    char keyChar = e.getKeyChar();
+                    System.out.println("Key Typed: " + keyChar);
+                }
+            });
+            setFocusable(true);
         }
     }
 
