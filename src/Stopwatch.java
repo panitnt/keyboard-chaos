@@ -23,6 +23,11 @@ public class Stopwatch {
         this.isRunning = false;
     }
 
+    public void reset() {
+        this.startTime = 0;
+        this.stopTime = 0;
+        this.isRunning = false;
+    }
     public double getElapsedTime() {
 
         long elapsedTime;
