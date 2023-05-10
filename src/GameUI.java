@@ -3,15 +3,31 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.TimerTask;
 
 public class GameUI extends JFrame {
     private GamePanel gamePanel;
     private WordPanel wordPanel;
+    private Game game;
+//    private Replay replay;
     public GameUI() {
         gamePanel = new GamePanel();
         wordPanel = new WordPanel();
+        game = new Game();
+        game.starts();
 
+        String second = Double.toString(game.getTime());
+        JLabel label = new JLabel(second);
+        label.setBounds(50,50, 100,30);
+        add(label);
+        this.updateTime(label);
+
+//        replay = new Replay();
 //        gamePanel.add(wordPanel);
+        JButton replayButton = new JButton("Replay");
+        replayButton.setBounds(50,100,95,30);
+        add(replayButton);
+
         add(gamePanel);
         pack();
 //        setLocationRelativeTo(null);
@@ -19,6 +35,17 @@ public class GameUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
+    public void updateTime(JLabel label) {
+        Thread thread = new Thread() {
+            public void run(){
+                while(true) {
+                    String second = Double.toString(game.getTime());
+                    label.setText(second);
+                }
+            }
+        };
+        thread.start();
+    }
     class GamePanel extends JPanel {
         private final int PADDING = 250;
 
