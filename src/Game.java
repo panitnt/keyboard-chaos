@@ -13,7 +13,7 @@ public class Game {
     }
     public void starts() {
         stopwatch.start();
-        // stop game logic
+        // start game logic
     }
 
     public void stops() {
