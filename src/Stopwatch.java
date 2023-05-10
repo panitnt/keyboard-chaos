@@ -1,7 +1,10 @@
 import java.lang.*;
 
 public class Stopwatch {
-    private final long time = 0;
+    private long startTime = 0;
+    private long stopTime = 0;
+    private boolean isRunning = false;
+    private final long nanoSecondsPerSecond = 1000000000;
     private static Stopwatch instance = null;
     public static Stopwatch getInstance() {
         if (instance == null) {
@@ -10,18 +13,25 @@ public class Stopwatch {
         return instance;
     }
 
-    public double start() {
-        long timeBegin = System.currentTimeMillis();
-        return timeBegin;
+    public void start() {
+        this.startTime = System.nanoTime();
+        this.isRunning = true;
     }
 
-    public double elapsedTime() {
-        double start = this.start();
-        long now = System.currentTimeMillis();
-        return (now - start) / 1000.0;
+    public void stop() {
+        this.stopTime = System.nanoTime();
+        this.isRunning = false;
     }
 
-    public static void main(String[] args) {
+    public double getElapsedTime() {
 
+        long elapsedTime;
+
+        if (isRunning)
+            elapsedTime = (System.nanoTime() - this.stopTime);
+        else
+            elapsedTime = (this.stopTime - this.startTime);
+
+        return elapsedTime / nanoSecondsPerSecond;
     }
 }
