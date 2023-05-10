@@ -2,10 +2,17 @@ import java.lang.*;
 
 public class Stopwatch {
     private final long time = 0;
+    private static Stopwatch instance = null;
+    public static Stopwatch getInstance() {
+        if (instance == null) {
+            instance = new Stopwatch();
+        }
+        return instance;
+    }
 
     public double start() {
-        long begin = System.currentTimeMillis();
-        return begin;
+        long timeBegin = System.currentTimeMillis();
+        return timeBegin;
     }
 
     public double elapsedTime() {
