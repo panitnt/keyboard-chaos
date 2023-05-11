@@ -78,6 +78,11 @@ public class Game extends Observable {
         return 0;
     }
 
+    public int accuracyCalculation() {
+        // calculate accuracy in percentage
+        return 0;
+    }
+
     public double getTime() {
         return stopwatch.getElapsedTime();
     }
