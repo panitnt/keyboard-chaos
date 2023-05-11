@@ -21,6 +21,18 @@ public class Game {
         stopwatch.stop();
         // stop game logic
     }
+
+    public void resets() {
+        stopwatch.reset();
+        // reset game logic
+        // reset everything word, time, wpm,
+    }
+
+    public int wordPerMinuteCalculation() {
+        // calculate word per minutes
+        return 0;
+    }
+
     public double getTime() {
         return stopwatch.getElapsedTime();
     }
