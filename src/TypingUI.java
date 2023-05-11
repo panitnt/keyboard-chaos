@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -82,6 +83,7 @@ public class TypingUI extends JFrame implements Observer {
     class Gui extends JPanel {
         private JLabel timeLabel;
         private JLabel wpm;
+        private JLabel accu;
         private JButton replayButton;
 
         private JButton restartButton;
@@ -105,11 +107,17 @@ public class TypingUI extends JFrame implements Observer {
             restartButton.addActionListener(e -> {
                 restartButton.setEnabled(false);
                 replayButton.setEnabled(false);
-                wpm.setText("WPM = ");
+                accu.setText("");
+                wpm.setText("");
                 game.resets();
                 TypingUI.this.requestFocus();
             });
             add(restartButton);
+
+            accu = new JLabel("");
+            accu.setBounds(400, 50, 100, 20);
+            accu.setFont(new Font("Monospaced", Font.BOLD, 20));
+            add(accu);
 
             wpm = new JLabel("");
             wpm.setBounds(400, 50, 100, 20);
@@ -151,8 +159,10 @@ public class TypingUI extends JFrame implements Observer {
                         getChar.setType(true);
                         getChar.setSinceWrong(true);
                     }
-                    double accu = game.accuracyCalculation(getChar);
-                    gui.wpm.setText("WPM: " + accu);
+                    int accu = game.accuracyCalculation(getChar);
+                    gui.accu.setText("Accuracy: " + accu);
+                    int wpm = game.wordPerMinuteCalculation();
+                    gui.wpm.setText("WPM: " + wpm);
                 }
             }
         }

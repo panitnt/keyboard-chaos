@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -12,7 +13,7 @@ public class Game extends Observable {
     protected List<Character> word_generate = new ArrayList<Character>();
     private boolean isPlaying = false;
     private int correctWord = 0;
-    public int keyPress = 0;
+    public float keyPress = 0;
 
     public Game() {
         setting = Setting.getInstance();
@@ -74,20 +75,23 @@ public class Game extends Observable {
         index = 0;
         initWordController();
         keyPress = 0;
+        correctWord = 0;
     }
 
-    public double wordPerMinuteCalculation() {
-        int countWord = keyPress / 5;
-        double wpm = countWord / getTime();
+    public int wordPerMinuteCalculation() {
+        if (getTime() == 0.0){
+            return 0;
+        }
+        int wpm = (int) ((keyPress - (keyPress - correctWord)) * 60 / (getTime() * 5));
         return wpm;
     }
 
-    public double accuracyCalculation(Character c) {
+    public int accuracyCalculation(Character c) {
         if (c.isCorrect()) {
             correctWord++;
         }
-        System.out.println(correctWord * 100 / keyPress + " " + keyPress + " " + correctWord);
-        return correctWord * 100 / keyPress;
+        int acc = (int) (correctWord * 100 / keyPress);
+        return acc;
     }
 
     public double getTime() {
