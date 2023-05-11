@@ -10,6 +10,7 @@ public class Game extends Observable {
     private Thread thread;
     public int index = 0;
     protected List<Character> word_generate = new ArrayList<Character>();
+    private boolean isPlaying = false;
 
     public Game() {
         setting = Setting.getInstance();
@@ -83,4 +84,11 @@ public class Game extends Observable {
         setting.setLevel(1);
     }
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
 }

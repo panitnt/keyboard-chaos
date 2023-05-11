@@ -89,17 +89,18 @@ public class TypingUI extends JFrame implements Observer {
             timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
             add(timeLabel);
 
-            replayButton = new JButton("Replay");
-            replayButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    game.start();
-                    replayButton.setEnabled(false);
-                    TypingUI.this.requestFocus();
-                }
-            });
-//            replayButton.setEnabled(false);
-            add(replayButton);
+
+//            replayButton = new JButton("Replay");
+//            replayButton.addActionListener(new ActionListener() {
+//                @Override
+//                public void actionPerformed(ActionEvent e) {
+////                    game.start();
+//                    replayButton.setEnabled(false);
+//                    TypingUI.this.requestFocus();
+//                }
+//            });
+////            replayButton.setEnabled(false);
+//            add(replayButton);
         }
         public void updateTime(Double time){
             timeLabel.setText("Time: " + time);
@@ -109,6 +110,12 @@ public class TypingUI extends JFrame implements Observer {
     class Controller extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
+            if (!game.isPlaying()) {
+                game.start();
+                TypingUI.this.requestFocus();
+                game.setPlaying(true);
+            }
+
             Character getChar = game.word_generate.get(game.index);
             if (e.getKeyCode() != 16) {
                 System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
