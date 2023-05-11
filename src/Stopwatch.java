@@ -5,6 +5,7 @@ public class Stopwatch {
     private long stopTime = 0;
     private boolean isRunning = false;
     private final long nanoSecondsPerSecond = 1000000000;
+    private final long nanoSecondsPerMilliSecond = 1000000;
     private static Stopwatch instance = null;
     public static Stopwatch getInstance() {
         if (instance == null) {
@@ -39,5 +40,16 @@ public class Stopwatch {
             elapsedTime = (this.stopTime - this.startTime);
 
         return elapsedTime / nanoSecondsPerSecond;
+    }
+
+    public double getElapsedTimeMilliSecond() {
+        long elapsedTime;
+
+        if (isRunning)
+            elapsedTime = (System.nanoTime() - this.startTime);
+        else
+            elapsedTime = (this.stopTime - this.startTime);
+
+        return elapsedTime / nanoSecondsPerMilliSecond;
     }
 }
