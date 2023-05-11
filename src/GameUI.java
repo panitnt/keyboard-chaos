@@ -30,7 +30,7 @@ public class GameUI extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         wordPanel.repaint();
-
+        gamePanel.repaint();
     }
 
     class GamePanel extends JPanel {
@@ -83,9 +83,9 @@ public class GameUI extends JFrame implements Observer {
 //            paintWord(g, new Command('D'), 11, 1);
 
 
-            for(int row = 0; row < 40; row++){
+            for(int row = 0; row < 45; row++){
                 for(int col = 0; col <20; col++){
-                    paintWord(g, new Command('H'), row, col);
+                    paintWord(g, new Character('H'), row, col);
 //                    paintWord(g, new Command('E'), row, col);
 //                    paintWord(g, new Command('L'), row, col);
 //                    paintWord(g, new Command('L'), row, col);
@@ -94,19 +94,19 @@ public class GameUI extends JFrame implements Observer {
 
         }
 
-        private void paintWord(Graphics g, Command c, int x, int y) {
+        private void paintWord(Graphics g, Character c, int x, int y) {
             g.setColor(Color.WHITE);
             g.fillRect(x * (this.FONT_SIZE-10), y * this.FONT_SIZE, this.FONT_SIZE-10, this.FONT_SIZE);
             if (c.isCorrect()) {
                 g.setColor(Color.BLACK);
-            } else if (c.isQueue() && (!c.isCorrect())) {
+            } else if (c.isType() && (!c.isCorrect())) {
                 g.setColor(Color.RED);
             } else {
 
                 g.setColor(Color.LIGHT_GRAY);
             }
             g.setFont(new Font("Monospaced", Font.PLAIN, 30));
-            g.drawString(c.getCharacter() + "", (x * (this.FONT_SIZE-10)) + 1, (y * this.FONT_SIZE) + 26);
+            g.drawString(c.getaChar() + "", (x * (this.FONT_SIZE-10)) + 1, (y * this.FONT_SIZE) + 26);
 
         }
     }

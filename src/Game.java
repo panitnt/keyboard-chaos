@@ -2,27 +2,52 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Game extends Observable {
+public class Game {
     private WordController wordController;
     private Setting setting;
     private Thread thread;
-    private List<WordController> word_generate= new ArrayList<WordController>();
+    public int index = 0;
+    protected List<Character> word_generate = new ArrayList<Character>();
 
-    public Game(){
+    public Game() {
         setting = Setting.getInstance();
         initWordController();
     }
-        public void initWordController(){
-        word_generate.add(new WordController("hello"));
-        word_generate.add(new WordController(" "));
-        word_generate.add(new WordController("world"));
-    }
-    public void start(){
-        thread = new Thread(){
-            @Override
-            public void run(){
 
-            }
-        };
-    };
+    public void initWordController() {
+        List<java.lang.Character> charList = new ArrayList<>();
+        charList.add('H');
+        charList.add('E');
+        charList.add('L');
+        charList.add('L');
+        charList.add('O');
+        charList.add(' ');
+        charList.add('W');
+        charList.add('O');
+        charList.add('R');
+        charList.add('L');
+        charList.add('D');
+        charList.add(' ');
+        charList.add('Y');
+        charList.add('A');
+        charList.add('Y');
+
+
+        for (java.lang.Character c: charList){
+            word_generate.add(new Character(c));
+        }
+    }
+
+    public void start() {
+//        thread = new Thread() {
+//            @Override
+//            public void run() {
+//                while (true){
+//                    notifyObservers();
+//                }
+//            }
+//        };
+//        thread.start();
+    }
+    ;
 }

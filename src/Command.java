@@ -1,4 +1,4 @@
-public class Command {
+public abstract class Command {
     private Character character;
     private long time;
 
