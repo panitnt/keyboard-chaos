@@ -47,6 +47,8 @@ public class TypingUI extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         wordPanel.repaint();
         gui.updateTime(game.getTime());
+        int wpm = game.wordPerMinute;
+        gui.wpm.setText("WPM: " + wpm);
     }
 
     class WordPanel extends JPanel {
