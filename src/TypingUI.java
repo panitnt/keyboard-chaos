@@ -53,9 +53,9 @@ public class TypingUI extends JFrame {
             if (c.isCorrect() && (!c.isSinceWrong())) {
                 g.setColor(Color.BLACK);
             } else if (c.isCorrect() && c.isSinceWrong()) {
-                g.setColor(Color.PINK);
-            } else if (c.isType() && (!c.isCorrect())) {
                 g.setColor(Color.RED);
+            } else if (c.isType() && (!c.isCorrect())) {
+                g.setColor(Color.LIGHT_GRAY);
             } else {
                 g.setColor(Color.LIGHT_GRAY);
             }
