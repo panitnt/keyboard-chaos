@@ -1,6 +1,6 @@
 public class Setting {
-    private int level;
     private String mode;
+    private int level;
     private static Setting instance;
     public static Setting getInstance(){
         if (instance == null) {
@@ -10,6 +10,8 @@ public class Setting {
     }
 
     private Setting(){
+        this.mode = mode;
+        this.level = level;
     }
     public int getLevel() {
         return level;

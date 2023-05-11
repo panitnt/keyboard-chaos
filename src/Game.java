@@ -4,7 +4,6 @@ public class Game {
     private WordController word;
     private Setting setting;
     private Stopwatch stopwatch;
-    private GameUI gameUI;
 
     public Game(){
 //        word = new WordController();
@@ -13,6 +12,8 @@ public class Game {
     }
     public void starts() {
         stopwatch.start();
+        setting.setMode("easy");
+        setting.setLevel(1);
         // start game logic
     }
 
