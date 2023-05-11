@@ -22,6 +22,7 @@ public class TypingUI extends JFrame implements Observer {
         add(gui, BorderLayout.SOUTH);
         game = new Game();
         game.addObserver(this);
+
 //        game.start();
 
 //        JButton replayButton = new JButton("Replay");
@@ -37,7 +38,7 @@ public class TypingUI extends JFrame implements Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg){
+    public void update(Observable o, Object arg) {
         wordPanel.repaint();
         gui.updateTime(game.getTime());
     }
@@ -77,38 +78,39 @@ public class TypingUI extends JFrame implements Observer {
 
         }
     }
-    class Gui extends JPanel{
+
+    class Gui extends JPanel {
         private JLabel timeLabel;
         private JButton replayButton;
-        public Gui(){
+
+        private JButton restartButton;
+
+        public Gui() {
             setLayout(new FlowLayout());
             timeLabel = new JLabel("Time: 0");
             timeLabel.setBounds(400, 50, 100, 20);
             timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
             add(timeLabel);
 
-//            replayButton = new JButton("Replay");
-//            replayButton.addActionListener(new ActionListener() {
-//                @Override
-//                public void actionPerformed(ActionEvent e) {
-////                    game.start();
-//                    replayButton.setEnabled(false);
-//                    TypingUI.this.requestFocus();
-//                }
-//            });
-////            replayButton.setEnabled(false);
-//            add(replayButton);
-
             replayButton = new JButton("Replay");
+            replayButton.setEnabled(false);
             replayButton.addActionListener(e -> {
-                game.start();
                 replayButton.setEnabled(false);
+            });
+            add(replayButton);
+
+            restartButton = new JButton("Restart");
+            restartButton.setEnabled(false);
+            restartButton.addActionListener(e -> {
+                restartButton.setEnabled(false);
+                replayButton.setEnabled(false);
+                game.resets();
                 TypingUI.this.requestFocus();
             });
-//            replayButton.setEnabled(false);
-//            add(replayButton);
+            add(restartButton);
         }
-        public void updateTime(Double time){
+
+        public void updateTime(Double time) {
             timeLabel.setText("Time: " + time);
         }
     }
@@ -116,26 +118,32 @@ public class TypingUI extends JFrame implements Observer {
     class Controller extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
-            if (!game.isPlaying()) {
+            if (!game.isPlaying() && (game.index==0)) {
                 game.start();
                 TypingUI.this.requestFocus();
                 game.setPlaying(true);
             }
-
-            Character getChar = game.word_generate.get(game.index);
-            if (e.getKeyCode() != 16) {
-                System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
-                if (e.getKeyChar() == getChar.getaChar()) {
-//                    System.out.println("True");
-                    getChar.setType(true);
-                    getChar.setCorrect(true);
-                    game.index++;
-                } else {
-                    getChar.setType(true);
-                    getChar.setSinceWrong(true);
+            if (game.index >= game.word_generate.size()) {
+                System.out.println("Game end!");
+            } else {
+                Character getChar = game.word_generate.get(game.index);
+                if (e.getKeyCode() != 16) {
+                    System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
+                    if (e.getKeyChar() == getChar.getaChar()) {
+                        getChar.setType(true);
+                        getChar.setCorrect(true);
+                        game.index++;
+                        if (game.index == game.word_generate.size()){
+                            game.stops();
+                            game.setPlaying(false);
+                            gui.replayButton.setEnabled(true);
+                            gui.restartButton.setEnabled(true);
+                        }
+                    } else {
+                        getChar.setType(true);
+                        getChar.setSinceWrong(true);
+                    }
                 }
-//                wordPanel.repaint();
-//                gui.updateTime(game.stopwatch.getElapsedTime());
             }
         }
     }

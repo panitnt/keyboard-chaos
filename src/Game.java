@@ -68,6 +68,9 @@ public class Game extends Observable {
         stopwatch.reset();
         // reset game logic
         // reset everything word, time, wpm,
+        word_generate.clear();
+        index = 0;
+        initWordController();
     }
 
     public int wordPerMinuteCalculation() {
