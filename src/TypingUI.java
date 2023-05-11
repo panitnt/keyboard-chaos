@@ -52,16 +52,21 @@ public class TypingUI extends JFrame implements Observer {
 
         public WordPanel() {
             setPreferredSize(new Dimension(getWidth() * FONT_SIZE, FONT_SIZE));
-            setBackground(Color.pink);
+            setBackground(Color.LIGHT_GRAY);
         }
 
         @Override
         public void paint(Graphics g) {
             super.paint(g);
             int row = 1;
+            int col = 1;
             for (Character w : game.word_generate) {
-                paintWord(g, w, row, 1);
+                paintWord(g, w, row, col);
                 row++;
+                if (row > 43) {
+                    col++;
+                    row = 1;
+                }
             }
         }
 
@@ -153,7 +158,7 @@ public class TypingUI extends JFrame implements Observer {
             } else {
                 Character getChar = game.word_generate.get(game.index);
                 if (e.getKeyCode() != 16) {
-                    System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
+//                    System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
                     if (e.getKeyChar() == getChar.getaChar()) {
                         getChar.setType(true);
                         getChar.setCorrect(true);
