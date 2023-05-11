@@ -105,7 +105,7 @@ public class TypingUI extends JFrame implements Observer {
             restartButton.addActionListener(e -> {
                 restartButton.setEnabled(false);
                 replayButton.setEnabled(false);
-                wpm.setText("WPM = " + game.getTime());
+                wpm.setText("WPM = " + game.accuracyCalculation()));
                 game.resets();
                 TypingUI.this.requestFocus();
             });
@@ -125,6 +125,7 @@ public class TypingUI extends JFrame implements Observer {
     class Controller extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
+            game.keyPress++;
             if (!game.isPlaying() && (game.index==0)) {
                 game.start();
                 TypingUI.this.requestFocus();

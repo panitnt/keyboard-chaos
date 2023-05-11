@@ -11,6 +11,8 @@ public class Game extends Observable {
     public int index = 0;
     protected List<Character> word_generate = new ArrayList<Character>();
     private boolean isPlaying = false;
+    private int correctWord = 0;
+    public int keyPress = 0;
 
     public Game() {
         setting = Setting.getInstance();
@@ -73,14 +75,19 @@ public class Game extends Observable {
         initWordController();
     }
 
-    public int wordPerMinuteCalculation() {
-        // calculate word per minutes
-        return 0;
+    public double wordPerMinuteCalculation() {
+        int countWord = keyPress / 5;
+        double wpm = countWord / getTime();
+        return wpm;
     }
 
     public int accuracyCalculation() {
-        // calculate accuracy in percentage
-        return 0;
+        for (Character c: word_generate) {
+            if(c.isCorrect()) {
+                correctWord++;
+            }
+        }
+        return keyPress / correctWord;
     }
 
     public double getTime() {
