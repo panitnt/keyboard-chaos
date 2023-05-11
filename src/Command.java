@@ -16,7 +16,9 @@ public class Command {
         return time;
     }
 
-    public void execute(){
-        // press the keyboard
+    public void execute(Character getChar){
+        getChar.setType(character.isType());
+        getChar.setCorrect(character.isCorrect());
+        getChar.setSinceWrong(character.isSinceWrong());
     }
 }

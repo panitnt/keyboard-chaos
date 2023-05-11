@@ -47,6 +47,7 @@ public class Game extends Observable {
 
     public void start() {
         // start typing == start game
+        isPlaying = true;
 
         stopwatch.start();
         setting.setMode("easy");
@@ -54,7 +55,7 @@ public class Game extends Observable {
         // start game logic
 
         thread = new Thread(() -> {
-            while (true) {
+            while (isPlaying) {
                 setChanged();
                 notifyObservers();
                 wordPerMinute = wordPerMinuteCalculation();
@@ -65,6 +66,7 @@ public class Game extends Observable {
 
     public void stops() {
         stopwatch.stop();
+        isPlaying = false;
         // stop game logic
     }
 

@@ -113,11 +113,35 @@ public class TypingUI extends JFrame implements Observer {
                 replayButton.setEnabled(false);
             });
             replayButton.addActionListener(e -> {
-                List<Command> commands = replay.getCommands();
-                for (Command command : commands) {
-                    System.out.println(command.getCharacter());
-                    System.out.println(command.getTime());
-                }
+                Thread thread = new Thread() {
+                    @Override
+                    public void run() {
+                        super.run();
+                        synchronized (TypingUI.this) {
+                            List<Command> commands = replay.getCommands();
+                            game.resets();
+                            game.index = 0;
+                            for (Command command : commands) {
+                                Character getChar = game.word_generate.get(game.index);
+                                command.execute(getChar);
+                                try {
+                                    double time = command.getTime() > 0? command.getTime() : 1;
+                                    TypingUI.this.wait((long) time);
+                                } catch (InterruptedException ex) {
+                                    throw new RuntimeException(ex);
+                                }
+                                System.out.println(command.getCharacter());
+                                System.out.println(command.getTime());
+                                game.index++;
+                                wordPanel.repaint();
+                            }
+                            replayButton.setEnabled(true);
+                            TypingUI.this.notifyAll();
+                        }
+                    }
+                };
+                thread.start();
+
             });
             add(replayButton);
 
@@ -155,10 +179,11 @@ public class TypingUI extends JFrame implements Observer {
             game.keyPress++;
             if (!game.isPlaying() && (game.index == 0)) {
                 game.start();
+                stepWatch.start();
                 TypingUI.this.requestFocus();
-                game.setPlaying(true);
             }
             if (game.index >= game.word_generate.size()) {
+                game.stops();
                 System.out.println("Game end!");
             } else {
                 Character getChar = game.word_generate.get(game.index);
