@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,9 +10,12 @@ public class TypingUI extends JFrame implements Observer {
     private WordPanel wordPanel;
     private Gui gui;
     private Game game;
+    private Replay replay;
 
     public TypingUI() {
         super();
+        replay = new Replay();
+
         addKeyListener(new Controller());
         setLayout(new BorderLayout());
 
@@ -98,6 +102,12 @@ public class TypingUI extends JFrame implements Observer {
             replayButton.addActionListener(e -> {
                 replayButton.setEnabled(false);
             });
+            replayButton.addActionListener(e -> {
+                List<Command> commands = replay.getCommands();
+                for(Command command: commands){
+                    command.execute();
+                }
+            });
             add(replayButton);
 
             restartButton = new JButton("Restart");
@@ -151,6 +161,8 @@ public class TypingUI extends JFrame implements Observer {
                         getChar.setType(true);
                         getChar.setSinceWrong(true);
                     }
+                    aCommand command = new aCommand(getChar, game.stopwatch.getElapsedTime());
+                    replay.addCommand(command);
                     double accu = game.accuracyCalculation(getChar);
                     gui.wpm.setText("WPM: " + accu);
                 }
