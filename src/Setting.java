@@ -1,7 +1,6 @@
 public class Setting {
-    private String category;
-    private int level;
     private String mode;
+    private int level;
     private static Setting instance;
     public static Setting getInstance(){
         if (instance == null) {
@@ -11,22 +10,15 @@ public class Setting {
     }
 
     private Setting(){
+        this.mode = mode;
+        this.level = level;
     }
-    public String getCategory() {
-        return category;
-    }
-
     public int getLevel() {
         return level;
     }
 
-
     public String getMode() {
         return mode;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public void setLevel(int level) {

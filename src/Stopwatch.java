@@ -23,12 +23,18 @@ public class Stopwatch {
         this.isRunning = false;
     }
 
+    public void reset() {
+        this.startTime = 0;
+        this.stopTime = 0;
+        this.isRunning = false;
+    }
+
     public double getElapsedTime() {
 
         long elapsedTime;
 
         if (isRunning)
-            elapsedTime = (System.nanoTime() - this.stopTime);
+            elapsedTime = (System.nanoTime() - this.startTime);
         else
             elapsedTime = (this.stopTime - this.startTime);
 

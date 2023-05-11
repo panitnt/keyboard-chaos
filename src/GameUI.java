@@ -5,18 +5,35 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.TimerTask;
 
 public class GameUI extends JFrame implements Observer {
     private GamePanel gamePanel;
     private WordPanel wordPanel;
     private Game game;
 
+//    private Replay replay;
     public GameUI() {
         gamePanel = new GamePanel();
         wordPanel = new WordPanel();
         game = new Game();
+        game.start();
 
+        String second = Double.toString(game.getTime());
+        JLabel timeLabel = new JLabel(second);
+        timeLabel.setBounds(400,50, 100, 20);
+        timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
+
+
+        add(timeLabel);
+        this.updateTime(timeLabel);
+
+//        replay = new Replay();
 //        gamePanel.add(wordPanel);
+        JButton replayButton = new JButton("Replay");
+        replayButton.setBounds(400,100,95,30);
+        add(replayButton);
+
         add(gamePanel);
         add(wordPanel);
         pack();
@@ -33,6 +50,17 @@ public class GameUI extends JFrame implements Observer {
         gamePanel.repaint();
     }
 
+    public void updateTime(JLabel label) {
+        Thread thread = new Thread() {
+            public void run(){
+                while(true) {
+                    String second = Double.toString(game.getTime());
+                    label.setText(second);
+                }
+            }
+        };
+        thread.start();
+    }
     class GamePanel extends JPanel {
 //        private final int PADDING = 50;
 

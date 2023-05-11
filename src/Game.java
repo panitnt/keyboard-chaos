@@ -5,12 +5,14 @@ import java.util.Observable;
 public class Game {
     private WordController wordController;
     private Setting setting;
+    private Stopwatch stopwatch;
     private Thread thread;
     public int index = 0;
     protected List<Character> word_generate = new ArrayList<Character>();
 
     public Game() {
         setting = Setting.getInstance();
+        stopwatch = Stopwatch.getInstance();
         initWordController();
     }
 
@@ -33,12 +35,19 @@ public class Game {
         charList.add('Y');
 
 
-        for (java.lang.Character c: charList){
+        for (java.lang.Character c : charList) {
             word_generate.add(new Character(c));
         }
     }
 
     public void start() {
+        // start typing == start game
+
+        stopwatch.start();
+        setting.setMode("easy");
+        setting.setLevel(1);
+        // start game logic
+
 //        thread = new Thread() {
 //            @Override
 //            public void run() {
@@ -49,5 +58,29 @@ public class Game {
 //        };
 //        thread.start();
     }
-    ;
+
+    public void stops() {
+        stopwatch.stop();
+        // stop game logic
+    }
+
+    public void resets() {
+        stopwatch.reset();
+        // reset game logic
+        // reset everything word, time, wpm,
+    }
+
+    public int wordPerMinuteCalculation() {
+        // calculate word per minutes
+        return 0;
+    }
+
+    public double getTime() {
+        return stopwatch.getElapsedTime();
+    }
+
+    public void setGame() {
+        setting.setMode("word");
+        setting.setLevel(1);
+    }
 }
