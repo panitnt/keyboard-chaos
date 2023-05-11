@@ -105,7 +105,7 @@ public class TypingUI extends JFrame implements Observer {
             restartButton.addActionListener(e -> {
                 restartButton.setEnabled(false);
                 replayButton.setEnabled(false);
-                wpm.setText("WPM = " + game.accuracyCalculation()));
+                wpm.setText("WPM = " + game.accuracyCalculation());
                 game.resets();
                 TypingUI.this.requestFocus();
             });
