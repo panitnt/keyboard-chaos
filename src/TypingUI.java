@@ -81,7 +81,7 @@ public class TypingUI extends JFrame implements Observer {
     }
     class Gui extends JPanel{
         private JLabel timeLabel;
-        private JButton replayButton;
+        private JButton playButton;
         public Gui(){
             setLayout(new FlowLayout());
             timeLabel = new JLabel("Time: 0");
@@ -89,17 +89,14 @@ public class TypingUI extends JFrame implements Observer {
             timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
             add(timeLabel);
 
-            replayButton = new JButton("Replay");
-            replayButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    game.start();
-                    replayButton.setEnabled(false);
-                    TypingUI.this.requestFocus();
-                }
+            playButton = new JButton("Play");
+            playButton.addActionListener(e -> {
+                game.start();
+                playButton.setEnabled(false);
+                TypingUI.this.requestFocus();
             });
 //            replayButton.setEnabled(false);
-            add(replayButton);
+            add(playButton);
         }
         public void updateTime(Double time){
             timeLabel.setText("Time: " + time);
