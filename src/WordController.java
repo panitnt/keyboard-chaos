@@ -1,3 +1,4 @@
+// now not use
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +9,6 @@ public class WordController {
 
     public WordController(String str){
         this.container = str;
-        for (int i = 0; i < str.length(); i++){
-            Command char_i = new Command(str.charAt(i));
-            collector.add(char_i);
-        }
     }
 
 }
