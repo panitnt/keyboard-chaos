@@ -14,6 +14,7 @@ public class Game extends Observable {
     private boolean isPlaying = false;
     private int correctWord = 0;
     public float keyPress = 0;
+    public int wordPerMinute = 0;
 
     public Game() {
         setting = Setting.getInstance();
@@ -117,6 +118,7 @@ public class Game extends Observable {
             while (true) {
                 setChanged();
                 notifyObservers();
+                wordPerMinute = wordPerMinuteCalculation();
             }
         });
         thread.start();

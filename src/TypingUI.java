@@ -45,6 +45,8 @@ public class TypingUI extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         wordPanel.repaint();
         gui.updateTime(game.getTime());
+        int wpm = game.wordPerMinute;
+        gui.wpm.setText("WPM: " + wpm);
     }
 
     class WordPanel extends JPanel {
@@ -175,8 +177,6 @@ public class TypingUI extends JFrame implements Observer {
                     }
                     int accu = game.accuracyCalculation(getChar);
                     gui.accu.setText("Accuracy: " + accu);
-                    int wpm = game.wordPerMinuteCalculation();
-                    gui.wpm.setText("WPM: " + wpm);
                     aCommand command = new aCommand(getChar, game.stopwatch.getElapsedTime());
                     replay.addCommand(command);
                 }
