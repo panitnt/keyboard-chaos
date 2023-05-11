@@ -1,48 +1,48 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
-public class TypingUI extends JFrame {
+public class TypingUI extends JFrame implements Observer {
     private WordPanel wordPanel;
+    private Gui gui;
     private Game game;
 
     public TypingUI() {
         super();
         addKeyListener(new Controller());
+        setLayout(new BorderLayout());
+
         wordPanel = new WordPanel();
+        add(wordPanel, BorderLayout.CENTER);
+
+        gui = new Gui();
+        add(gui, BorderLayout.SOUTH);
         game = new Game();
+        game.addObserver(this);
 //        game.start();
 
-        String second = Double.toString(game.getTime());
-        JLabel timeLabel = new JLabel(second);
-        timeLabel.setBounds(400, 50, 100, 20);
-        timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
-
-        game.updateTime(timeLabel);
-
-        JButton replayButton = new JButton("Replay");
-        replayButton.setBounds(400, 100, 95, 30);
-        add(wordPanel, BorderLayout.CENTER);
-        add(replayButton, BorderLayout.SOUTH);
-        add(timeLabel, BorderLayout.SOUTH);
-//        game.addObserver(this);
-        pack();
-        setLocationRelativeTo(null);
+//        JButton replayButton = new JButton("Replay");
+//        replayButton.setBounds(400, 100, 95, 30);
+//        add(replayButton, BorderLayout.SOUTH);
+//        add(timeLabel, BorderLayout.SOUTH);
+//        pack();
+//        setLocationRelativeTo(null);
         setSize(900, 600);
         setVisible(true);
         setAlwaysOnTop(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
-        game.start();
     }
 
-//    @Override
-//    public void update(Observable o, Object arg){
-//        wordPanel.repaint();
-//    }
+    @Override
+    public void update(Observable o, Object arg){
+        wordPanel.repaint();
+        gui.updateTime(game.getTime());
+    }
 
     class WordPanel extends JPanel {
         private final int FONT_SIZE = 30;
@@ -79,6 +79,32 @@ public class TypingUI extends JFrame {
 
         }
     }
+    class Gui extends JPanel{
+        private JLabel timeLabel;
+        private JButton replayButton;
+        public Gui(){
+            setLayout(new FlowLayout());
+            timeLabel = new JLabel("Time: 0");
+            timeLabel.setBounds(400, 50, 100, 20);
+            timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
+            add(timeLabel);
+
+            replayButton = new JButton("Replay");
+            replayButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    game.start();
+                    replayButton.setEnabled(false);
+                    TypingUI.this.requestFocus();
+                }
+            });
+//            replayButton.setEnabled(false);
+            add(replayButton);
+        }
+        public void updateTime(Double time){
+            timeLabel.setText("Time: " + time);
+        }
+    }
 
     class Controller extends KeyAdapter {
         @Override
@@ -87,7 +113,7 @@ public class TypingUI extends JFrame {
             if (e.getKeyCode() != 16) {
                 System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
                 if (e.getKeyChar() == getChar.getaChar()) {
-                    System.out.println("True");
+//                    System.out.println("True");
                     getChar.setType(true);
                     getChar.setCorrect(true);
                     game.index++;
@@ -95,7 +121,8 @@ public class TypingUI extends JFrame {
                     getChar.setType(true);
                     getChar.setSinceWrong(true);
                 }
-                wordPanel.repaint();
+//                wordPanel.repaint();
+//                gui.updateTime(game.stopwatch.getElapsedTime());
             }
         }
     }

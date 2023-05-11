@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Game {
+public class Game extends Observable {
     private WordController wordController;
     private Setting setting;
-    private Stopwatch stopwatch;
+    protected Stopwatch stopwatch;
     private Thread thread;
     public int index = 0;
     protected List<Character> word_generate = new ArrayList<Character>();
@@ -19,21 +19,21 @@ public class Game {
 
     public void initWordController() {
         List<java.lang.Character> charList = new ArrayList<>();
-        charList.add('H');
-        charList.add('E');
-        charList.add('L');
-        charList.add('L');
-        charList.add('O');
+        charList.add('h');
+        charList.add('e');
+        charList.add('l');
+        charList.add('l');
+        charList.add('o');
         charList.add(' ');
-        charList.add('W');
-        charList.add('O');
-        charList.add('R');
-        charList.add('L');
-        charList.add('D');
+        charList.add('w');
+        charList.add('o');
+        charList.add('r');
+        charList.add('l');
+        charList.add('d');
         charList.add(' ');
-        charList.add('Y');
-        charList.add('A');
-        charList.add('Y');
+        charList.add('y');
+        charList.add('a');
+        charList.add('y');
 
 
         for (java.lang.Character c : charList) {
@@ -49,15 +49,13 @@ public class Game {
         setting.setLevel(1);
         // start game logic
 
-//        thread = new Thread() {
-//            @Override
-//            public void run() {
-//                while (true){
-//                    notifyObservers();
-//                }
-//            }
-//        };
-//        thread.start();
+        thread = new Thread(() -> {
+            while (true) {
+                setChanged();
+                notifyObservers();
+            }
+        });
+        thread.start();
     }
 
     public void stops() {
@@ -83,18 +81,6 @@ public class Game {
     public void setGame() {
         setting.setMode("word");
         setting.setLevel(1);
-    }
-
-    public void updateTime(JLabel label) {
-        Thread thread = new Thread() {
-            public void run(){
-                while(true) {
-                    String second = Double.toString(getTime());
-                    label.setText(second);
-                }
-            }
-        };
-        thread.start();
     }
 
 }
