@@ -11,9 +11,11 @@ public class TypingUI extends JFrame implements Observer {
     private Gui gui;
     private Game game;
     private Replay replay;
+    private Stopwatch stepWatch;
 
     public TypingUI() {
         super();
+        stepWatch = new Stopwatch();
         replay = new Replay();
 
         addKeyListener(new Controller());
@@ -113,7 +115,8 @@ public class TypingUI extends JFrame implements Observer {
             replayButton.addActionListener(e -> {
                 List<Command> commands = replay.getCommands();
                 for (Command command : commands) {
-                    command.execute();
+                    System.out.println(command.getCharacter());
+                    System.out.println(command.getTime());
                 }
             });
             add(replayButton);
@@ -177,7 +180,9 @@ public class TypingUI extends JFrame implements Observer {
                     }
                     int accu = game.accuracyCalculation(getChar);
                     gui.accu.setText("Accuracy: " + accu);
-                    aCommand command = new aCommand(getChar, game.stopwatch.getElapsedTime());
+
+                    Command command = new Command(getChar, stepWatch.getElapsedTime());
+                    stepWatch.start();
                     replay.addCommand(command);
                 }
             }
