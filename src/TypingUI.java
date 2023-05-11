@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
@@ -89,7 +87,6 @@ public class TypingUI extends JFrame implements Observer {
             timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
             add(timeLabel);
 
-
 //            replayButton = new JButton("Replay");
 //            replayButton.addActionListener(new ActionListener() {
 //                @Override
@@ -100,6 +97,15 @@ public class TypingUI extends JFrame implements Observer {
 //                }
 //            });
 ////            replayButton.setEnabled(false);
+//            add(replayButton);
+
+            replayButton = new JButton("Replay");
+            replayButton.addActionListener(e -> {
+                game.start();
+                replayButton.setEnabled(false);
+                TypingUI.this.requestFocus();
+            });
+//            replayButton.setEnabled(false);
 //            add(replayButton);
         }
         public void updateTime(Double time){
