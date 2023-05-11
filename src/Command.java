@@ -1,8 +1,8 @@
 public abstract class Command {
     private Character character;
-    private long time;
+    private double time;
 
-    public Command(Character character, long time){
+    public Command(Character character, double time){
         this.character = character;
         this.time = time;
     }
@@ -12,7 +12,7 @@ public abstract class Command {
     }
 
 
-    public float getTime() {
+    public double getTime() {
         return time;
     }
 
