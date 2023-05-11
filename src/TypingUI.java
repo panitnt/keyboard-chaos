@@ -8,26 +8,26 @@ import java.util.Observer;
 public class TypingUI extends JFrame {
     private WordPanel wordPanel;
     private Game game;
+
     public TypingUI() {
         super();
         addKeyListener(new Controller());
         wordPanel = new WordPanel();
         game = new Game();
-        game.start();
+//        game.start();
 
         String second = Double.toString(game.getTime());
         JLabel timeLabel = new JLabel(second);
-        timeLabel.setBounds(400,50, 100, 20);
+        timeLabel.setBounds(400, 50, 100, 20);
         timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
 
         this.updateTime(timeLabel);
 
         JButton replayButton = new JButton("Replay");
-        replayButton.setBounds(400,100,95,30);
-        add(replayButton);
-
-        add(timeLabel);
-        add(wordPanel);
+        replayButton.setBounds(400, 100, 95, 30);
+        add(wordPanel, BorderLayout.CENTER);
+        add(replayButton, BorderLayout.SOUTH);
+        add(timeLabel, BorderLayout.SOUTH);
 //        game.addObserver(this);
         pack();
         setLocationRelativeTo(null);
@@ -46,8 +46,8 @@ public class TypingUI extends JFrame {
 
     public void updateTime(JLabel label) {
         Thread thread = new Thread() {
-            public void run(){
-                while(true) {
+            public void run() {
+                while (true) {
                     String second = Double.toString(game.getTime());
                     label.setText(second);
                 }
@@ -68,7 +68,7 @@ public class TypingUI extends JFrame {
         public void paint(Graphics g) {
             super.paint(g);
             int row = 1;
-            for (Character w: game.word_generate){
+            for (Character w : game.word_generate) {
                 paintWord(g, w, row, 1);
                 row++;
             }
@@ -76,7 +76,7 @@ public class TypingUI extends JFrame {
 
         private void paintWord(Graphics g, Character c, int x, int y) {
             g.setColor(Color.WHITE);
-            g.fillRect(x * (this.FONT_SIZE-10), y * this.FONT_SIZE, this.FONT_SIZE-10, this.FONT_SIZE);
+            g.fillRect(x * (this.FONT_SIZE - 10), y * this.FONT_SIZE, this.FONT_SIZE - 10, this.FONT_SIZE);
             if (c.isCorrect() && (!c.isSinceWrong())) {
                 g.setColor(Color.BLACK);
             } else if (c.isCorrect() && c.isSinceWrong()) {
@@ -87,27 +87,27 @@ public class TypingUI extends JFrame {
                 g.setColor(Color.LIGHT_GRAY);
             }
             g.setFont(new Font("Monospaced", Font.PLAIN, 30));
-            g.drawString(c.getaChar() + "", (x * (this.FONT_SIZE-10)) + 1, (y * this.FONT_SIZE) + 26);
+            g.drawString(c.getaChar() + "", (x * (this.FONT_SIZE - 10)) + 1, (y * this.FONT_SIZE) + 26);
 
         }
     }
+
     class Controller extends KeyAdapter {
         @Override
         public void keyPressed(KeyEvent e) {
             Character getChar = game.word_generate.get(game.index);
-            if (e.getKeyCode() != 16){
-            System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
-            if (e.getKeyChar() == getChar.getaChar()){
-                System.out.println("True");
-                getChar.setType(true);
-                getChar.setCorrect(true);
-                game.index++;
-            }
-            else {
-                getChar.setType(true);
-                getChar.setSinceWrong(true);
-            }
-            wordPanel.repaint();
+            if (e.getKeyCode() != 16) {
+                System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
+                if (e.getKeyChar() == getChar.getaChar()) {
+                    System.out.println("True");
+                    getChar.setType(true);
+                    getChar.setCorrect(true);
+                    game.index++;
+                } else {
+                    getChar.setType(true);
+                    getChar.setSinceWrong(true);
+                }
+                wordPanel.repaint();
             }
         }
     }
