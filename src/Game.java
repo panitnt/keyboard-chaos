@@ -11,6 +11,8 @@ public class Game {
         stopwatch = Stopwatch.getInstance();
     }
     public void starts() {
+        // start typing == start game
+
         stopwatch.start();
         setting.setMode("easy");
         setting.setLevel(1);
