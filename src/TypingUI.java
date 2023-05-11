@@ -81,6 +81,7 @@ public class TypingUI extends JFrame implements Observer {
 
     class Gui extends JPanel {
         private JLabel timeLabel;
+        private JLabel wpm;
         private JButton replayButton;
 
         private JButton restartButton;
@@ -104,9 +105,15 @@ public class TypingUI extends JFrame implements Observer {
             restartButton.addActionListener(e -> {
                 restartButton.setEnabled(false);
                 replayButton.setEnabled(false);
+                wpm.setText("WPM = " + game.getTime());
                 game.resets();
                 TypingUI.this.requestFocus();
             });
+            add(restartButton);
+
+            wpm = new JLabel("");
+            timeLabel.setBounds(400, 50, 100, 20);
+            timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
             add(restartButton);
         }
 
