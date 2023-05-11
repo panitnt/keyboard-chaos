@@ -119,6 +119,7 @@ public class TypingUI extends JFrame implements Observer {
                         super.run();
                         synchronized (TypingUI.this) {
                             List<Command> commands = replay.getCommands();
+                            // do here
                             game.resets();
                             game.index = 0;
                             for (Command command : commands) {
@@ -150,6 +151,7 @@ public class TypingUI extends JFrame implements Observer {
             restartButton.addActionListener(e -> {
                 restartButton.setEnabled(false);
                 replayButton.setEnabled(false);
+                replay.reset();
                 accu.setText("");
                 wpm.setText("");
                 game.resets();

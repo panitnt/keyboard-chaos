@@ -1,11 +1,8 @@
-import javax.swing.*;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
 public class Game extends Observable {
-    private WordController wordController;
     private Setting setting;
     protected Stopwatch stopwatch;
     private Thread thread;
