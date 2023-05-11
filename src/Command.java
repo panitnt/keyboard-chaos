@@ -1,4 +1,4 @@
-public abstract class Command {
+public class Command {
     private Character character;
     private double time;
 
@@ -7,8 +7,8 @@ public abstract class Command {
         this.time = time;
     }
 
-    public Character getCharacter() {
-        return character;
+    public char getCharacter() {
+        return character.getaChar();
     }
 
 
