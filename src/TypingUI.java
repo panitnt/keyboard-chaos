@@ -180,7 +180,7 @@ public class TypingUI extends JFrame implements Observer {
                     gui.accu.setText("Accuracy: " + accu);
                     int wpm = game.wordPerMinuteCalculation();
                     gui.wpm.setText("WPM: " + wpm);
-                    Command command = new Command(getChar, stepWatch.getElapsedTime());
+                    Command command = new Command(getChar, stepWatch.getElapsedTimeMilliSecond());
                     stepWatch.start();
                     replay.addCommand(command);
                 }
