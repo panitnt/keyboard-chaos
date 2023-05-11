@@ -17,15 +17,18 @@ public class GameUI extends JFrame {
         game.starts();
 
         String second = Double.toString(game.getTime());
-        JLabel label = new JLabel(second);
-        label.setBounds(50,50, 100,30);
-        add(label);
-        this.updateTime(label);
+        JLabel timeLabel = new JLabel(second);
+        timeLabel.setBounds(400,50, 100, 20);
+        timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
+
+
+        add(timeLabel);
+        this.updateTime(timeLabel);
 
 //        replay = new Replay();
 //        gamePanel.add(wordPanel);
         JButton replayButton = new JButton("Replay");
-        replayButton.setBounds(50,100,95,30);
+        replayButton.setBounds(400,100,95,30);
         add(replayButton);
 
         add(gamePanel);
