@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -83,4 +84,17 @@ public class Game {
         setting.setMode("word");
         setting.setLevel(1);
     }
+
+    public void updateTime(JLabel label) {
+        Thread thread = new Thread() {
+            public void run(){
+                while(true) {
+                    String second = Double.toString(getTime());
+                    label.setText(second);
+                }
+            }
+        };
+        thread.start();
+    }
+
 }

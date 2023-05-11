@@ -13,14 +13,13 @@ public class TypingUI extends JFrame {
         addKeyListener(new Controller());
         wordPanel = new WordPanel();
         game = new Game();
-        game.start();
 
         String second = Double.toString(game.getTime());
         JLabel timeLabel = new JLabel(second);
         timeLabel.setBounds(400,50, 100, 20);
         timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
 
-        this.updateTime(timeLabel);
+        game.updateTime(timeLabel);
 
         JButton replayButton = new JButton("Replay");
         replayButton.setBounds(400,100,95,30);
@@ -43,18 +42,6 @@ public class TypingUI extends JFrame {
 //    public void update(Observable o, Object arg){
 //        wordPanel.repaint();
 //    }
-
-    public void updateTime(JLabel label) {
-        Thread thread = new Thread() {
-            public void run(){
-                while(true) {
-                    String second = Double.toString(game.getTime());
-                    label.setText(second);
-                }
-            }
-        };
-        thread.start();
-    }
 
     class WordPanel extends JPanel {
         private final int FONT_SIZE = 30;
