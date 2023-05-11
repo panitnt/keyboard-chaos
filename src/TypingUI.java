@@ -105,16 +105,16 @@ public class TypingUI extends JFrame implements Observer {
             restartButton.addActionListener(e -> {
                 restartButton.setEnabled(false);
                 replayButton.setEnabled(false);
-                wpm.setText("WPM = " + game.accuracyCalculation());
+                wpm.setText("WPM = ");
                 game.resets();
                 TypingUI.this.requestFocus();
             });
             add(restartButton);
 
             wpm = new JLabel("");
-            timeLabel.setBounds(400, 50, 100, 20);
-            timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
-            add(restartButton);
+            wpm.setBounds(400, 50, 100, 20);
+            wpm.setFont(new Font("Monospaced", Font.BOLD, 20));
+            add(wpm);
         }
 
         public void updateTime(Double time) {
@@ -126,7 +126,7 @@ public class TypingUI extends JFrame implements Observer {
         @Override
         public void keyPressed(KeyEvent e) {
             game.keyPress++;
-            if (!game.isPlaying() && (game.index==0)) {
+            if (!game.isPlaying() && (game.index == 0)) {
                 game.start();
                 TypingUI.this.requestFocus();
                 game.setPlaying(true);
@@ -141,7 +141,7 @@ public class TypingUI extends JFrame implements Observer {
                         getChar.setType(true);
                         getChar.setCorrect(true);
                         game.index++;
-                        if (game.index == game.word_generate.size()){
+                        if (game.index == game.word_generate.size()) {
                             game.stops();
                             game.setPlaying(false);
                             gui.replayButton.setEnabled(true);
@@ -151,6 +151,8 @@ public class TypingUI extends JFrame implements Observer {
                         getChar.setType(true);
                         getChar.setSinceWrong(true);
                     }
+                    double accu = game.accuracyCalculation(getChar);
+                    gui.wpm.setText("WPM: " + accu);
                 }
             }
         }

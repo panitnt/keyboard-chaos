@@ -73,6 +73,7 @@ public class Game extends Observable {
         word_generate.clear();
         index = 0;
         initWordController();
+        keyPress = 0;
     }
 
     public double wordPerMinuteCalculation() {
@@ -81,13 +82,12 @@ public class Game extends Observable {
         return wpm;
     }
 
-    public int accuracyCalculation() {
-        for (Character c: word_generate) {
-            if(c.isCorrect()) {
-                correctWord++;
-            }
+    public double accuracyCalculation(Character c) {
+        if (c.isCorrect()) {
+            correctWord++;
         }
-        return keyPress / correctWord;
+        System.out.println(correctWord * 100 / keyPress + " " + keyPress + " " + correctWord);
+        return correctWord * 100 / keyPress;
     }
 
     public double getTime() {
