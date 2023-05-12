@@ -30,16 +30,7 @@ public class TypingUI extends JFrame implements Observer {
         add(gui, BorderLayout.SOUTH);
         game = new Game();
         game.addObserver(this);
-
-//        game.start();
-
-//        JButton replayButton = new JButton("Replay");
-//        replayButton.setBounds(400, 100, 95, 30);
-//        add(replayButton, BorderLayout.SOUTH);
-//        add(timeLabel, BorderLayout.SOUTH);
-//        pack();
-//        setLocationRelativeTo(null);
-        setSize(900, 600);
+        setSize(900, 700);
         setVisible(true);
         setAlwaysOnTop(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -93,13 +84,34 @@ public class TypingUI extends JFrame implements Observer {
         private JButton replayButton;
 
         private JButton restartButton;
+        private JButton easyButton;
+        private JButton mediumButton;
+        private JButton hardButton;
+
 
         public Gui() {
-            setLayout(new FlowLayout());
+            setPreferredSize(new Dimension(900, 100));
+            setLayout(new GridLayout(3, 2));
+
             timeLabel = new JLabel("Time: 0");
             timeLabel.setBounds(400, 50, 100, 20);
             timeLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
+
             add(timeLabel);
+            accu = new JLabel("");
+            accu.setBounds(400, 50, 100, 20);
+            accu.setFont(new Font("Monospaced", Font.BOLD, 20));
+            add(accu);
+
+            wpm = new JLabel("");
+            wpm.setBounds(400, 50, 100, 20);
+            wpm.setFont(new Font("Monospaced", Font.BOLD, 20));
+            add(wpm);
+
+            JLabel noneLabel = new JLabel("");
+            noneLabel.setBounds(400, 50, 100, 20);
+            noneLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
+            add(noneLabel);
 
             replayButton = new JButton("Replay");
             replayButton.setEnabled(false);
@@ -164,7 +176,11 @@ public class TypingUI extends JFrame implements Observer {
             restartButton.addActionListener(e -> {
                 restartButton.setEnabled(false);
                 replayButton.setEnabled(false);
+                easyButton.setEnabled(true);
+                mediumButton.setEnabled(true);
+                hardButton.setEnabled(true);
                 replay.reset();
+                timeLabel.setText("Time: ");
                 game.resets();
                 accu.setText("");
                 wpm.setText("");
@@ -173,15 +189,41 @@ public class TypingUI extends JFrame implements Observer {
             });
             add(restartButton);
 
-            accu = new JLabel("");
-            accu.setBounds(400, 50, 100, 20);
-            accu.setFont(new Font("Monospaced", Font.BOLD, 20));
-            add(accu);
+            easyButton = new JButton("Easy");
+            easyButton.addActionListener(e -> {
+                game.setLevel(1);
+                game.initWordController(1);
+                easyButton.setEnabled(false);
+                mediumButton.setEnabled(false);
+                hardButton.setEnabled(false);
+                wordPanel.repaint();
+                TypingUI.this.requestFocus();
+            });
+            add(easyButton);
 
-            wpm = new JLabel("");
-            wpm.setBounds(400, 50, 100, 20);
-            wpm.setFont(new Font("Monospaced", Font.BOLD, 20));
-            add(wpm);
+            mediumButton = new JButton("Medium");
+            mediumButton.addActionListener(e -> {
+                game.setLevel(2);
+                game.initWordController(2);
+                easyButton.setEnabled(false);
+                mediumButton.setEnabled(false);
+                hardButton.setEnabled(false);
+                wordPanel.repaint();
+                TypingUI.this.requestFocus();
+            });
+            add(mediumButton);
+
+            hardButton = new JButton("Hard");
+            hardButton.addActionListener(e -> {
+                game.setLevel(3);
+                game.initWordController(3);
+                easyButton.setEnabled(false);
+                mediumButton.setEnabled(false);
+                hardButton.setEnabled(false);
+                wordPanel.repaint();
+                TypingUI.this.requestFocus();
+            });
+            add(hardButton);
         }
 
         public void updateTime(Double time) {
