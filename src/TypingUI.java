@@ -122,20 +122,36 @@ public class TypingUI extends JFrame implements Observer {
                             // do here
                             game.resets();
                             game.index = 0;
+                            Command currentCommand = null;
+                            Command nextCommand = null;
                             for (Command command : commands) {
+
+                                nextCommand = command;
+                                if(currentCommand == null){
+                                    currentCommand = command;
+                                    continue;
+                                }
+
                                 Character getChar = game.word_generate.get(game.index);
-                                command.execute(getChar);
+                                currentCommand.execute(getChar);
                                 try {
-                                    double time = command.getTime() > 0? command.getTime() : 1;
+                                    double time = nextCommand.getTime() > 0? nextCommand.getTime() : 1;
                                     TypingUI.this.wait((long) time);
                                 } catch (InterruptedException ex) {
                                     throw new RuntimeException(ex);
                                 }
-                                System.out.println(command.getCharacter());
-                                System.out.println(command.getTime());
+                                System.out.println(currentCommand.getCharacter());
+                                System.out.println(currentCommand.getTime());
                                 game.index++;
                                 wordPanel.repaint();
+                                currentCommand = nextCommand;
                             }
+                            Character getChar = game.word_generate.get(game.index);
+                            commands.get(commands.size() - 1).execute(getChar);
+                            System.out.println(currentCommand.getCharacter());
+                            System.out.println(currentCommand.getTime());
+                            wordPanel.repaint();
+
                             replayButton.setEnabled(true);
                             TypingUI.this.notifyAll();
                         }
@@ -195,6 +211,11 @@ public class TypingUI extends JFrame implements Observer {
                         getChar.setType(true);
                         getChar.setCorrect(true);
                         game.index++;
+
+                        Command command = new Command(getChar, stepWatch.getElapsedTimeMilliSecond());
+                        stepWatch.start();
+                        replay.addCommand(command);
+
                         if (game.index == game.word_generate.size()) {
                             game.stops();
                             game.setPlaying(false);
@@ -209,9 +230,7 @@ public class TypingUI extends JFrame implements Observer {
                     gui.accu.setText("Accuracy: " + accu);
                     int wpm = game.wordPerMinuteCalculation();
                     gui.wpm.setText("WPM: " + wpm);
-                    Command command = new Command(getChar, stepWatch.getElapsedTimeMilliSecond());
-                    stepWatch.start();
-                    replay.addCommand(command);
+
                 }
             }
         }
