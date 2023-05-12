@@ -7,12 +7,12 @@ public class Stopwatch {
     private final long nanoSecondsPerSecond = 1000000000;
     private final long nanoSecondsPerMilliSecond = 1000000;
     private static Stopwatch instance = null;
-    public static Stopwatch getInstance() {
-        if (instance == null) {
-            instance = new Stopwatch();
-        }
-        return instance;
-    }
+//    public static Stopwatch getInstance() {
+//        if (instance == null) {
+//            instance = new Stopwatch();
+//        }
+//        return instance;
+//    }
 
     public void start() {
         this.startTime = System.nanoTime();

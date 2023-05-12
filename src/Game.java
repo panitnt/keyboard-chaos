@@ -17,7 +17,7 @@ public class Game extends Observable {
 
     public Game() {
         setting = Setting.getInstance();
-        stopwatch = Stopwatch.getInstance();
+        stopwatch = new Stopwatch();
         initWordController(setting.getLevel());
     }
 
@@ -132,6 +132,14 @@ public class Game extends Observable {
         initWordController(setting.getLevel());
         keyPress = 0;
         correctWord = 0;
+    }
+
+    public void resetTyped(){
+        for(Character character: word_generate){
+            character.setType(false);
+            character.setCorrect(false);
+            character.setSinceWrong(false);
+        }
     }
 
     public int wordPerMinuteCalculation() {
