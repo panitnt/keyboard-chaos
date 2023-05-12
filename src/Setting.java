@@ -1,6 +1,6 @@
 public class Setting {
     private String mode;
-    private int level;
+    private int level=2;
     private static Setting instance;
     public static Setting getInstance(){
         if (instance == null) {

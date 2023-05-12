@@ -9,7 +9,6 @@ public class Game extends Observable {
     private Thread thread;
     public int index = 0;
     protected List<Character> word_generate = new ArrayList<>();
-    protected List<String> levelList = List.of("easy", "intermediate", "hard");
     private boolean isPlaying = false;
     private int correctWord = 0;
     public float keyPress = 0;
@@ -23,40 +22,78 @@ public class Game extends Observable {
     }
 
     public void initWordController(int level) {
-//        if (level == 1){
-//            for (int a = 0; a< 50; a++){
-//                List<java.lang.Character> ch = WordEasy.allWord.get(rand.nextInt(0, WordEasy.allWord.size()));
-//                for (java.lang.Character c: ch){
-//                    word_generate.add(new Character(c));
-//                }
-//                word_generate.add(new Character(' '));
-//            }
-//        } else if (level == 2) {
-//
-//        } else {
-//
-//        }
-//        word_generate.add(new Character('A'));
-        int rol = 1;
-        int col = 1;
-        for (int a = 0; a < 5; a++) {
-            List<java.lang.Character> ch = WordEasy.allWord.get(rand.nextInt(0, WordEasy.allWord.size()));
-            if (44 - rol < ch.size()) {
-                rol = 1;
-                col++;
-            }
-            for (java.lang.Character c : ch) {
-                Character newCH = new Character(c, rol, col);
-                word_generate.add(newCH);
-                rol++;
-                System.out.println(newCH.getaChar() + " " + newCH.getX()+" " +newCH.getY());
-                if (rol >= 44) {
-                    col++;
+        if (level == 1){
+            int loop = 150;
+            int rol = 1;
+            int col = 1;
+            for (int a = 0; a < loop; a++) {
+                List<java.lang.Character> ch = WordEasy.allWord.get(rand.nextInt(0, WordEasy.allWord.size()));
+                if (44 - rol < ch.size()) {
                     rol = 1;
+                    col++;
+                }
+                for (java.lang.Character c : ch) {
+                    Character newCH = new Character(c, rol, col);
+                    word_generate.add(newCH);
+                    rol++;
+                    if (rol >= 44) {
+                        col++;
+                        rol = 1;
+                    }
+                }
+                if (a<loop-1){
+                    word_generate.add(new Character(' ', rol, col));
+                    rol++;
                 }
             }
-            word_generate.add(new Character(' ', rol, col));
-            rol++;
+        } else if (level == 2) {
+            int loop = 100;
+            int rol = 1;
+            int col = 1;
+            for (int a = 0; a < loop; a++) {
+                List<java.lang.Character> ch = WordMedium.allWord.get(rand.nextInt(0, WordMedium.allWord.size()));
+                if (44 - rol < ch.size()) {
+                    rol = 1;
+                    col++;
+                }
+                for (java.lang.Character c : ch) {
+                    Character newCH = new Character(c, rol, col);
+                    word_generate.add(newCH);
+                    rol++;
+                    if (rol >= 44) {
+                        col++;
+                        rol = 1;
+                    }
+                }
+                if (a<loop-1){
+                    word_generate.add(new Character(' ', rol, col));
+                    rol++;
+                }
+            }
+        } else {
+            int loop = 50;
+            int rol = 1;
+            int col = 1;
+            for (int a = 0; a < loop; a++) {
+                List<java.lang.Character> ch = WordHard.allWord.get(rand.nextInt(0, WordHard.allWord.size()));
+                if (44 - rol < ch.size()) {
+                    rol = 1;
+                    col++;
+                }
+                for (java.lang.Character c : ch) {
+                    Character newCH = new Character(c, rol, col);
+                    word_generate.add(newCH);
+                    rol++;
+                    if (rol >= 44) {
+                        col++;
+                        rol = 1;
+                    }
+                }
+                if (a<loop-1){
+                    word_generate.add(new Character(' ', rol, col));
+                    rol++;
+                }
+            }
         }
     }
 
@@ -66,7 +103,7 @@ public class Game extends Observable {
 
         stopwatch.start();
         setting.setMode("word");
-        setting.setLevel(levelList.indexOf(0));
+        setting.setLevel(setting.getLevel());
         // start game logic
 
         thread = new Thread(() -> {
@@ -118,7 +155,7 @@ public class Game extends Observable {
 
     public void setGame(String mode, int level) {
         setting.setMode(mode);
-        setting.setLevel(levelList.indexOf(level));
+        setting.setLevel(level);
     }
 
     public String getMode() {
