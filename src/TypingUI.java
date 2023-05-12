@@ -62,21 +62,14 @@ public class TypingUI extends JFrame implements Observer {
         @Override
         public void paint(Graphics g) {
             super.paint(g);
-            int row = 1;
-            int col = 1;
             for (Character w : game.word_generate) {
-                paintWord(g, w, row, col);
-                row++;
-                if (row > 43) {
-                    col++;
-                    row = 1;
-                }
+                paintWord(g, w);
             }
         }
 
-        private void paintWord(Graphics g, Character c, int x, int y) {
+        private void paintWord(Graphics g, Character c) {
             g.setColor(Color.WHITE);
-            g.fillRect(x * (this.FONT_SIZE - 10), y * this.FONT_SIZE, this.FONT_SIZE - 10, this.FONT_SIZE);
+            g.fillRect(c.getX() * (this.FONT_SIZE - 10), c.getY() * this.FONT_SIZE, this.FONT_SIZE - 10, this.FONT_SIZE);
             if (c.isCorrect() && (!c.isSinceWrong())) {
                 g.setColor(Color.BLACK);
             } else if (c.isCorrect() && c.isSinceWrong()) {
@@ -86,9 +79,8 @@ public class TypingUI extends JFrame implements Observer {
             } else {
                 g.setColor(Color.LIGHT_GRAY);
             }
-            g.setFont(new Font("Monospaced", Font.PLAIN, 30));
-            g.drawString(c.getaChar() + "", (x * (this.FONT_SIZE - 10)) + 1, (y * this.FONT_SIZE) + 26);
-
+            g.setFont(new Font("Monospaced", Font.PLAIN, 28));
+            g.drawString(c.getaChar() + "", (c.getX() * (this.FONT_SIZE - 10)) + 1, (c.getY() * this.FONT_SIZE) + 23);
         }
     }
 

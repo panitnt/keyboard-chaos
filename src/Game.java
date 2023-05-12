@@ -1,44 +1,61 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Random;
 
 public class Game extends Observable {
     private Setting setting;
     protected Stopwatch stopwatch;
     private Thread thread;
     public int index = 0;
-    protected List<Character> word_generate = new ArrayList<Character>();
+    protected List<Character> word_generate = new ArrayList<>();
     private boolean isPlaying = false;
     private int correctWord = 0;
     public float keyPress = 0;
     public int wordPerMinute = 0;
+    Random rand = new Random();
 
     public Game() {
         setting = Setting.getInstance();
         stopwatch = Stopwatch.getInstance();
-        initWordController();
+        initWordController(setting.getLevel());
     }
 
-    public void initWordController() {
-        List<java.lang.Character> charList = new ArrayList<>();
-        charList.add('h');
-        charList.add('e');
-        charList.add('l');
-        charList.add('l');
-        charList.add('o');
-        charList.add(' ');
-        charList.add('w');
-        charList.add('o');
-        charList.add('r');
-        charList.add('l');
-        charList.add('d');
-        charList.add(' ');
-        charList.add('y');
-        charList.add('a');
-        charList.add('y');
-
-        for (java.lang.Character c : charList) {
-            word_generate.add(new Character(c));
+    public void initWordController(int level) {
+//        if (level == 1){
+//            for (int a = 0; a< 50; a++){
+//                List<java.lang.Character> ch = WordEasy.allWord.get(rand.nextInt(0, WordEasy.allWord.size()));
+//                for (java.lang.Character c: ch){
+//                    word_generate.add(new Character(c));
+//                }
+//                word_generate.add(new Character(' '));
+//            }
+//        } else if (level == 2) {
+//
+//        } else {
+//
+//        }
+//        word_generate.add(new Character('A'));
+        int rol = 1;
+        int col = 1;
+        for (int a = 0; a < 5; a++) {
+            List<java.lang.Character> ch = WordEasy.allWord.get(rand.nextInt(0, WordEasy.allWord.size()));
+            if (44 - rol < ch.size()) {
+                rol = 1;
+                col++;
+            }
+            for (java.lang.Character c : ch) {
+                Character newCH = new Character(c, rol, col);
+                word_generate.add(newCH);
+                rol++;
+                System.out.println(newCH.getaChar() + " " + newCH.getX()+" " +newCH.getY());
+                if (rol >= 44) {
+                    col++;
+                    rol = 1;
+                }
+            }
+            word_generate.add(new Character(' ', rol, col));
+            rol++;
         }
     }
 
@@ -73,13 +90,13 @@ public class Game extends Observable {
         // reset everything word, time, wpm,
         word_generate.clear();
         index = 0;
-        initWordController();
+        initWordController(setting.getLevel());
         keyPress = 0;
         correctWord = 0;
     }
 
     public int wordPerMinuteCalculation() {
-        if (getTime() == 0.0){
+        if (getTime() == 0.0) {
             return 0;
         }
         int wpm = (int) ((keyPress - (keyPress - correctWord)) * 60 / (getTime() * 5));

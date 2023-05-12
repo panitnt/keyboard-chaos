@@ -3,12 +3,16 @@ public class Character {
     private boolean isType;
     private boolean isCorrect;
     private boolean sinceWrong;
+    private int row;
+    private int col;
 
-    public Character(char aChar){
+    public Character(char aChar, int r, int c){
         this.aChar = aChar;
         this.isType = false;
         this.isCorrect = false;
         this.sinceWrong = false;
+        this.row = r;
+        this.col = c;
     }
 
     public char getaChar() {
@@ -37,5 +41,13 @@ public class Character {
 
     public void setCorrect(boolean correct) {
         isCorrect = correct;
+    }
+
+    public int getX() {
+        return row;
+    }
+
+    public int getY() {
+        return col;
     }
 }

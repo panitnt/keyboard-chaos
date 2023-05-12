@@ -22,7 +22,9 @@ public class Setting {
     }
 
     public void setLevel(int level) {
-        this.level = level;
+        if ((level<4) && (level >0)){
+            this.level = level;
+        }
     }
 
     public void setMode(String mode) {
