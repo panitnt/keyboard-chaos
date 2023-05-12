@@ -75,7 +75,7 @@ public class TypingUI extends JFrame implements Observer {
             } else if (c.isCorrect() && c.isSinceWrong()) {
                 g.setColor(Color.RED);
             } else if (c.isType() && (!c.isCorrect())) {
-                g.setColor(Color.LIGHT_GRAY);
+                g.setColor(Color.PINK);
             } else {
                 g.setColor(Color.LIGHT_GRAY);
             }
