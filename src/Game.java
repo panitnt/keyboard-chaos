@@ -9,6 +9,7 @@ public class Game extends Observable {
     private Thread thread;
     public int index = 0;
     protected List<Character> word_generate = new ArrayList<>();
+    protected List<String> levelList = List.of("easy", "intermediate", "hard");
     private boolean isPlaying = false;
     private int correctWord = 0;
     public float keyPress = 0;
@@ -64,8 +65,8 @@ public class Game extends Observable {
         isPlaying = true;
 
         stopwatch.start();
-        setting.setMode("easy");
-        setting.setLevel(1);
+        setting.setMode("word");
+        setting.setLevel(levelList.indexOf(0));
         // start game logic
 
         thread = new Thread(() -> {
@@ -115,9 +116,17 @@ public class Game extends Observable {
         return stopwatch.getElapsedTime();
     }
 
-    public void setGame() {
-        setting.setMode("word");
-        setting.setLevel(1);
+    public void setGame(String mode, int level) {
+        setting.setMode(mode);
+        setting.setLevel(levelList.indexOf(level));
+    }
+
+    public String getMode() {
+        return setting.getMode();
+    }
+
+    public int getLevel() {
+        return setting.getLevel();
     }
 
     public boolean isPlaying() {
