@@ -2,7 +2,7 @@
 
 ## How to run this program
 
-You run at file `TypingUI.java` to use this program.
+You run at file `TypingUI.java` (in src) to use this program.
 
 ## Member
  * Zion Keretho 6410545592 
