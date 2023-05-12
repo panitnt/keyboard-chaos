@@ -22,8 +22,9 @@ public class Game extends Observable {
     }
 
     public void initWordController(int level) {
-        if (level == 1){
-            int loop = 150;
+        word_generate.clear();
+        if (level == 1) {
+            int loop = 5;
             int rol = 1;
             int col = 1;
             for (int a = 0; a < loop; a++) {
@@ -41,13 +42,13 @@ public class Game extends Observable {
                         rol = 1;
                     }
                 }
-                if (a<loop-1){
+                if (a < loop - 1) {
                     word_generate.add(new Character(' ', rol, col));
                     rol++;
                 }
             }
         } else if (level == 2) {
-            int loop = 100;
+            int loop = 70;
             int rol = 1;
             int col = 1;
             for (int a = 0; a < loop; a++) {
@@ -65,7 +66,7 @@ public class Game extends Observable {
                         rol = 1;
                     }
                 }
-                if (a<loop-1){
+                if ((a < loop - 1) && (rol != 1)) {
                     word_generate.add(new Character(' ', rol, col));
                     rol++;
                 }
@@ -89,7 +90,7 @@ public class Game extends Observable {
                         rol = 1;
                     }
                 }
-                if (a<loop-1){
+                if (a < loop - 1) {
                     word_generate.add(new Character(' ', rol, col));
                     rol++;
                 }
@@ -164,6 +165,10 @@ public class Game extends Observable {
 
     public int getLevel() {
         return setting.getLevel();
+    }
+
+    public void setLevel(int level) {
+        this.setting.setLevel(level);
     }
 
     public boolean isPlaying() {
