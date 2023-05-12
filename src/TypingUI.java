@@ -163,6 +163,7 @@ public class TypingUI extends JFrame implements Observer {
                 accu.setText("");
                 wpm.setText("");
                 game.resets();
+                wordPanel.repaint();
                 TypingUI.this.requestFocus();
             });
             add(restartButton);
