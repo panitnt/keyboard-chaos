@@ -24,7 +24,7 @@ public class Game extends Observable {
     public void initWordController(int level) {
         word_generate.clear();
         if (level == 1) {
-            int loop = 5;
+            int loop = 100;
             int rol = 1;
             int col = 1;
             for (int a = 0; a < loop; a++) {
