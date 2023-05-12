@@ -17,7 +17,7 @@ public class Game extends Observable {
 
     public Game() {
         setting = Setting.getInstance();
-        stopwatch = Stopwatch.getInstance();
+        stopwatch = new Stopwatch();
         initWordController(setting.getLevel());
     }
 
