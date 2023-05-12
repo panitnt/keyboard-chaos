@@ -81,17 +81,21 @@ public class TypingUI extends JFrame implements Observer {
         private JLabel timeLabel;
         private JLabel wpm;
         private JLabel accu;
+        private JLabel noteLabel;
         private JButton replayButton;
 
         private JButton restartButton;
         private JButton easyButton;
         private JButton mediumButton;
         private JButton hardButton;
+        private JButton normalButton;
+        private JButton fifteenButton;
+        private JButton thirtyButton;
 
 
         public Gui() {
             setPreferredSize(new Dimension(900, 100));
-            setLayout(new GridLayout(3, 2));
+            setLayout(new GridLayout(4, 2));
 
             timeLabel = new JLabel("Time: 0");
             timeLabel.setBounds(400, 50, 100, 20);
@@ -108,10 +112,10 @@ public class TypingUI extends JFrame implements Observer {
             wpm.setFont(new Font("Monospaced", Font.BOLD, 20));
             add(wpm);
 
-            JLabel noneLabel = new JLabel("");
-            noneLabel.setBounds(400, 50, 100, 20);
-            noneLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
-            add(noneLabel);
+            noteLabel = new JLabel("");
+            noteLabel.setBounds(400, 50, 100, 20);
+            noteLabel.setFont(new Font("Monospaced", Font.BOLD, 20));
+            add(noteLabel);
 
             replayButton = new JButton("Replay");
             replayButton.setEnabled(false);
@@ -134,7 +138,7 @@ public class TypingUI extends JFrame implements Observer {
                             for (Command command : commands) {
 
                                 nextCommand = command;
-                                if(currentCommand == null){
+                                if (currentCommand == null) {
                                     currentCommand = command;
                                     continue;
                                 }
@@ -143,7 +147,7 @@ public class TypingUI extends JFrame implements Observer {
                                 Character getChar = game.word_generate.get(game.index);
                                 currentCommand.execute(getChar);
                                 try {
-                                    double time = nextCommand.getTime() > 0? nextCommand.getTime() : 1;
+                                    double time = nextCommand.getTime() > 0 ? nextCommand.getTime() : 1;
                                     TypingUI.this.wait((long) time);
                                 } catch (InterruptedException ex) {
                                     throw new RuntimeException(ex);
@@ -179,6 +183,9 @@ public class TypingUI extends JFrame implements Observer {
                 easyButton.setEnabled(true);
                 mediumButton.setEnabled(true);
                 hardButton.setEnabled(true);
+                normalButton.setEnabled(true);
+                fifteenButton.setEnabled(true);
+                thirtyButton.setEnabled(true);
                 replay.reset();
                 timeLabel.setText("Time: ");
                 game.resets();
@@ -224,6 +231,36 @@ public class TypingUI extends JFrame implements Observer {
                 TypingUI.this.requestFocus();
             });
             add(hardButton);
+
+            normalButton = new JButton("Normal");
+            normalButton.addActionListener(e -> {
+                normalButton.setEnabled(false);
+                fifteenButton.setEnabled(false);
+                thirtyButton.setEnabled(false);
+                wordPanel.repaint();
+                TypingUI.this.requestFocus();
+            });
+            add(normalButton);
+
+            fifteenButton = new JButton("15 sec");
+            fifteenButton.addActionListener(e -> {
+                normalButton.setEnabled(false);
+                fifteenButton.setEnabled(false);
+                thirtyButton.setEnabled(false);
+                wordPanel.repaint();
+                TypingUI.this.requestFocus();
+            });
+            add(fifteenButton);
+
+            thirtyButton = new JButton("30 sec");
+            thirtyButton.addActionListener(e -> {
+                normalButton.setEnabled(false);
+                fifteenButton.setEnabled(false);
+                thirtyButton.setEnabled(false);
+                wordPanel.repaint();
+                TypingUI.this.requestFocus();
+            });
+            add(thirtyButton);
         }
 
         public void updateTime(Double time) {
@@ -238,6 +275,13 @@ public class TypingUI extends JFrame implements Observer {
             if (!game.isPlaying() && (game.index == 0)) {
                 game.start();
                 stepWatch.start();
+                gui.easyButton.setEnabled(false);
+                gui.mediumButton.setEnabled(false);
+                gui.hardButton.setEnabled(false);
+                gui.normalButton.setEnabled(false);
+                gui.fifteenButton.setEnabled(false);
+                gui.thirtyButton.setEnabled(false);
+                gui.noteLabel.setText(((game.getLevel() == 1) ? "Easy" : (game.getLevel() == 2) ? "Medium" : "Hard") + " " + game.getMode());
                 TypingUI.this.requestFocus();
             }
             if (game.index >= game.word_generate.size()) {
