@@ -42,6 +42,10 @@ public class TypingUI extends JFrame implements Observer {
         gui.updateTime(game.getTime());
         int wpm = game.wordPerMinute;
         gui.wpm.setText("WPM: " + wpm);
+        if (!game.isPlaying()){
+            gui.restartButton.setEnabled(true);
+            gui.replayButton.setEnabled(true);
+        }
     }
 
     class WordPanel extends JPanel {
@@ -201,8 +205,8 @@ public class TypingUI extends JFrame implements Observer {
                 game.setLevel(1);
                 game.initWordController(1);
                 easyButton.setEnabled(false);
-                mediumButton.setEnabled(false);
-                hardButton.setEnabled(false);
+                mediumButton.setEnabled(true);
+                hardButton.setEnabled(true);
                 wordPanel.repaint();
                 TypingUI.this.requestFocus();
             });
@@ -212,9 +216,9 @@ public class TypingUI extends JFrame implements Observer {
             mediumButton.addActionListener(e -> {
                 game.setLevel(2);
                 game.initWordController(2);
-                easyButton.setEnabled(false);
+                easyButton.setEnabled(true);
                 mediumButton.setEnabled(false);
-                hardButton.setEnabled(false);
+                hardButton.setEnabled(true);
                 wordPanel.repaint();
                 TypingUI.this.requestFocus();
             });
@@ -224,8 +228,8 @@ public class TypingUI extends JFrame implements Observer {
             hardButton.addActionListener(e -> {
                 game.setLevel(3);
                 game.initWordController(3);
-                easyButton.setEnabled(false);
-                mediumButton.setEnabled(false);
+                easyButton.setEnabled(true);
+                mediumButton.setEnabled(true);
                 hardButton.setEnabled(false);
                 wordPanel.repaint();
                 TypingUI.this.requestFocus();
@@ -234,9 +238,10 @@ public class TypingUI extends JFrame implements Observer {
 
             normalButton = new JButton("Normal");
             normalButton.addActionListener(e -> {
+                game.setMode(0);
                 normalButton.setEnabled(false);
-                fifteenButton.setEnabled(false);
-                thirtyButton.setEnabled(false);
+                fifteenButton.setEnabled(true);
+                thirtyButton.setEnabled(true);
                 wordPanel.repaint();
                 TypingUI.this.requestFocus();
             });
@@ -244,9 +249,10 @@ public class TypingUI extends JFrame implements Observer {
 
             fifteenButton = new JButton("15 sec");
             fifteenButton.addActionListener(e -> {
-                normalButton.setEnabled(false);
+                game.setMode(15);
+                normalButton.setEnabled(true);
                 fifteenButton.setEnabled(false);
-                thirtyButton.setEnabled(false);
+                thirtyButton.setEnabled(true);
                 wordPanel.repaint();
                 TypingUI.this.requestFocus();
             });
@@ -254,8 +260,9 @@ public class TypingUI extends JFrame implements Observer {
 
             thirtyButton = new JButton("30 sec");
             thirtyButton.addActionListener(e -> {
-                normalButton.setEnabled(false);
-                fifteenButton.setEnabled(false);
+                game.setMode(30);
+                normalButton.setEnabled(true);
+                fifteenButton.setEnabled(true);
                 thirtyButton.setEnabled(false);
                 wordPanel.repaint();
                 TypingUI.this.requestFocus();
@@ -287,7 +294,14 @@ public class TypingUI extends JFrame implements Observer {
             if (game.index >= game.word_generate.size()) {
                 game.stops();
                 System.out.println("Game end!");
-            } else {
+            }
+//            else if ((game.getMode() != 0) && ((int) game.getTime() >= game.getMode()-1)) {
+////                game.stops();
+//                System.out.println("Game end!");
+//                gui.restartButton.setEnabled(true);
+//                gui.replayButton.setEnabled(true);
+//            }
+            else {
                 if (e.getKeyCode() != 16) {
                     Character getChar = game.word_generate.get(game.index);
                     Character charCommand = new Character(getChar.getaChar(), getChar.getRow(), getChar.getCol());

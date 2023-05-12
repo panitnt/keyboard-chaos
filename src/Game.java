@@ -103,7 +103,7 @@ public class Game extends Observable {
         isPlaying = true;
 
         stopwatch.start();
-        setting.setMode("word");
+        setting.setMode(setting.getMode());
         setting.setLevel(setting.getLevel());
         // start game logic
 
@@ -112,6 +112,11 @@ public class Game extends Observable {
                 setChanged();
                 notifyObservers();
                 wordPerMinute = wordPerMinuteCalculation();
+                if ((getMode() != 0) && ((int) getTime() >= getMode())) {
+                    stops();
+                    setChanged();
+                    notifyObservers();
+                }
             }
         });
         thread.start();
@@ -134,8 +139,8 @@ public class Game extends Observable {
         correctWord = 0;
     }
 
-    public void resetTyped(){
-        for(Character character: word_generate){
+    public void resetTyped() {
+        for (Character character : word_generate) {
             character.setType(false);
             character.setCorrect(false);
             character.setSinceWrong(false);
@@ -162,12 +167,12 @@ public class Game extends Observable {
         return stopwatch.getElapsedTime();
     }
 
-    public void setGame(String mode, int level) {
+    public void setGame(int mode, int level) {
         setting.setMode(mode);
         setting.setLevel(level);
     }
 
-    public String getMode() {
+    public int getMode() {
         return setting.getMode();
     }
 
@@ -177,6 +182,10 @@ public class Game extends Observable {
 
     public void setLevel(int level) {
         this.setting.setLevel(level);
+    }
+
+    public void setMode(int level) {
+        this.setting.setMode(level);
     }
 
     public boolean isPlaying() {

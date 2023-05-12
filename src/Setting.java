@@ -1,33 +1,37 @@
 public class Setting {
-    private String mode;
-    private int level=2;
+    private int mode = 0;
+    private int level = 0;
     private static Setting instance;
-    public static Setting getInstance(){
+
+    public static Setting getInstance() {
         if (instance == null) {
             return new Setting();
         }
         return instance;
     }
 
-    private Setting(){
+    private Setting() {
         this.mode = mode;
         this.level = level;
     }
+
     public int getLevel() {
         return level;
     }
 
-    public String getMode() {
+    public int getMode() {
         return mode;
     }
 
     public void setLevel(int level) {
-        if ((level<4) && (level >0)){
+        if ((level < 4) && (level > 0)) {
             this.level = level;
         }
     }
 
-    public void setMode(String mode) {
-        this.mode = mode;
+    public void setMode(int mode) {
+        if ((mode == 0)||(mode == 15) || (mode==30)){
+            this.mode = mode;
+        }
     }
 }
