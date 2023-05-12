@@ -50,4 +50,12 @@ public class Character {
     public int getY() {
         return col;
     }
+
+    public int getCol() {
+        return col;
+    }
+
+    public int getRow() {
+        return row;
+    }
 }

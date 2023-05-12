@@ -102,18 +102,19 @@ public class TypingUI extends JFrame implements Observer {
             replayButton = new JButton("Replay");
             replayButton.setEnabled(false);
             replayButton.addActionListener(e -> {
-                replayButton.setEnabled(false);
-            });
-            replayButton.addActionListener(e -> {
                 Thread thread = new Thread() {
                     @Override
                     public void run() {
                         super.run();
+                        replayButton.setEnabled(false);
+                        restartButton.setEnabled(false);
                         synchronized (TypingUI.this) {
                             List<Command> commands = replay.getCommands();
                             // do here
-                            game.resets();
                             game.index = 0;
+                            game.resetTyped();
+                            wordPanel.repaint();
+
                             Command currentCommand = null;
                             Command nextCommand = null;
                             for (Command command : commands) {
@@ -132,19 +133,17 @@ public class TypingUI extends JFrame implements Observer {
                                 } catch (InterruptedException ex) {
                                     throw new RuntimeException(ex);
                                 }
-                                System.out.println(currentCommand.getCharacter());
-                                System.out.println(currentCommand.getTime());
-                                game.index++;
                                 wordPanel.repaint();
+                                game.index++;
                                 currentCommand = nextCommand;
                             }
                             Character getChar = game.word_generate.get(game.index);
+                            System.out.println(getChar);
                             commands.get(commands.size() - 1).execute(getChar);
-                            System.out.println(currentCommand.getCharacter());
-                            System.out.println(currentCommand.getTime());
                             wordPanel.repaint();
-
                             replayButton.setEnabled(true);
+                            restartButton.setEnabled(true);
+
                             TypingUI.this.notifyAll();
                         }
                     }
@@ -160,9 +159,9 @@ public class TypingUI extends JFrame implements Observer {
                 restartButton.setEnabled(false);
                 replayButton.setEnabled(false);
                 replay.reset();
+                game.resets();
                 accu.setText("");
                 wpm.setText("");
-                game.resets();
                 wordPanel.repaint();
                 TypingUI.this.requestFocus();
             });
@@ -197,21 +196,22 @@ public class TypingUI extends JFrame implements Observer {
                 game.stops();
                 System.out.println("Game end!");
             } else {
-                Character getChar = game.word_generate.get(game.index);
                 if (e.getKeyCode() != 16) {
-//                    System.out.println(getChar.getaChar() + " " + e.getKeyChar() + " " + e.getKeyCode());
+                    Character getChar = game.word_generate.get(game.index);
+                    Character charCommand = new Character(getChar.getaChar(), getChar.getRow(), getChar.getCol());
                     if (e.getKeyChar() == getChar.getaChar()) {
                         getChar.setType(true);
                         getChar.setCorrect(true);
                         game.index++;
 
-                        Command command = new Command(getChar, stepWatch.getElapsedTimeMilliSecond());
+                        charCommand.setType(getChar.isType());
+                        charCommand.setCorrect(getChar.isCorrect());
+                        charCommand.setSinceWrong(getChar.isSinceWrong());
+                        replay.addCommand(new Command(charCommand, stepWatch.getElapsedTimeMilliSecond()));
                         stepWatch.start();
-                        replay.addCommand(command);
 
                         if (game.index == game.word_generate.size()) {
                             game.stops();
-                            game.setPlaying(false);
                             gui.replayButton.setEnabled(true);
                             gui.restartButton.setEnabled(true);
                         }
@@ -220,8 +220,8 @@ public class TypingUI extends JFrame implements Observer {
                         getChar.setSinceWrong(true);
                     }
                     int accu = game.accuracyCalculation(getChar);
-                    gui.accu.setText("Accuracy: " + accu);
                     int wpm = game.wordPerMinuteCalculation();
+                    gui.accu.setText("Accuracy: " + accu);
                     gui.wpm.setText("WPM: " + wpm);
 
                 }

@@ -95,6 +95,14 @@ public class Game extends Observable {
         correctWord = 0;
     }
 
+    public void resetTyped(){
+        for(Character character: word_generate){
+            character.setType(false);
+            character.setCorrect(false);
+            character.setSinceWrong(false);
+        }
+    }
+
     public int wordPerMinuteCalculation() {
         if (getTime() == 0.0) {
             return 0;
