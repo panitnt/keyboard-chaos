@@ -134,16 +134,20 @@ public class TypingUI extends JFrame implements Observer {
                                     throw new RuntimeException(ex);
                                 }
                                 wordPanel.repaint();
+                                timeLabel.setText("Time: " + String.valueOf(command.getRealTime()));
+                                accu.setText("Accuracy: " + String.valueOf(command.getAccuracy()));
+                                wpm.setText("WPM: " + String.valueOf(command.getWpm()));
                                 game.index++;
                                 currentCommand = nextCommand;
                             }
                             Character getChar = game.word_generate.get(game.index);
                             System.out.println(getChar);
                             commands.get(commands.size() - 1).execute(getChar);
+                            accu.setText("Accuracy: " + String.valueOf(accu));
+                            wpm.setText("WPM: " + String.valueOf(wpm));
                             wordPanel.repaint();
                             replayButton.setEnabled(true);
                             restartButton.setEnabled(true);
-
                             TypingUI.this.notifyAll();
                         }
                     }
@@ -184,6 +188,8 @@ public class TypingUI extends JFrame implements Observer {
     }
 
     class Controller extends KeyAdapter {
+        public int accu;
+        public int wpm;
         @Override
         public void keyPressed(KeyEvent e) {
             game.keyPress++;
@@ -207,7 +213,7 @@ public class TypingUI extends JFrame implements Observer {
                         charCommand.setType(getChar.isType());
                         charCommand.setCorrect(getChar.isCorrect());
                         charCommand.setSinceWrong(getChar.isSinceWrong());
-                        replay.addCommand(new Command(charCommand, stepWatch.getElapsedTimeMilliSecond()));
+                        replay.addCommand(new Command(charCommand, stepWatch.getElapsedTimeMilliSecond(), game.stopwatch.getElapsedTime(), accu, wpm));
                         stepWatch.start();
 
                         if (game.index == game.word_generate.size()) {
@@ -219,8 +225,8 @@ public class TypingUI extends JFrame implements Observer {
                         getChar.setType(true);
                         getChar.setSinceWrong(true);
                     }
-                    int accu = game.accuracyCalculation(getChar);
-                    int wpm = game.wordPerMinuteCalculation();
+                    accu = game.accuracyCalculation(getChar);
+                    wpm = game.wordPerMinuteCalculation();
                     gui.accu.setText("Accuracy: " + accu);
                     gui.wpm.setText("WPM: " + wpm);
 

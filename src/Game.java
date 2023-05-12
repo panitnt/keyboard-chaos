@@ -38,7 +38,7 @@ public class Game extends Observable {
 //        word_generate.add(new Character('A'));
         int rol = 1;
         int col = 1;
-        for (int a = 0; a < 5; a++) {
+        for (int a = 0; a < 10; a++) {
             List<java.lang.Character> ch = WordEasy.allWord.get(rand.nextInt(0, WordEasy.allWord.size()));
             if (44 - rol < ch.size()) {
                 rol = 1;
