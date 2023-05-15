@@ -11,6 +11,10 @@ You run at file `TypingUI.java` (in src) to use this program.
 * Player can choose mode to play that
   * Normal: Player need to typing until last word
   * 15/30 sec: Player can typing until 15 or 30 second.
+* Game will start when player typing.
+
+https://github.com/panitnt/keyboard-chaos/assets/92779345/aa01da94-9ab5-49bd-8d93-dc0ed1033485
+
 
 ## Design Pattern
 * Singleton
